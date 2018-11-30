@@ -48,19 +48,23 @@ public class Scheduler extends Thread {
     }
 
     private void updateCounter() {
+        String labelCurrentTimeText = "Current Time: " + currentTime;
+        if (!running) {
+            labelCurrentTimeText += " -> STOPED <-";
+        }
         MainFrame.labelProcessCount.setText("Processes Count: " + processes.size());
-        MainFrame.labelCurrentTime.setText("Current Time: " + currentTime);
+        MainFrame.labelCurrentTime.setText(labelCurrentTimeText);
     }
 
     public void setQuantum(Integer quantum) {
         this.quantum = quantum;
     }
 
-    public void startSchedler() {
+    public void startScheduler() {
         running = true;
     }
 
-    public void stopSchedler() {
+    public void stopScheduler() {
         running = false;
     }
 
@@ -70,9 +74,13 @@ public class Scheduler extends Thread {
 
     @Override
     public void run() {
-        while (running) {
+        while (true) {
             try {
-                doLoop();
+                if (running) {
+                    doLoop();
+                } else {
+                    updateCounter();
+                }
                 Thread.sleep(SLEEP_DELAY);
             } catch (Exception e) {
                 e.printStackTrace();

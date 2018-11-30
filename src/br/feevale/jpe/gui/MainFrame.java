@@ -51,6 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
         quantumBox = new javax.swing.JComboBox<>();
         lblQuantum = new javax.swing.JLabel();
         labelCurrentTime = new javax.swing.JLabel();
+        btAddProcess1 = new javax.swing.JButton();
+        btAddProcess2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -91,6 +93,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         labelCurrentTime.setText("Current Time: 0");
 
+        btAddProcess1.setText("Start");
+        btAddProcess1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddProcess1ActionPerformed(evt);
+            }
+        });
+
+        btAddProcess2.setText("Stop");
+        btAddProcess2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddProcess2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,7 +134,11 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblQuantum)
                             .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 67, Short.MAX_VALUE)))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btAddProcess2)
+                            .addComponent(btAddProcess1))
+                        .addGap(0, 109, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -129,16 +149,18 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(lblTime)
                     .addComponent(lblPriority)
                     .addComponent(lblQuantum)
-                    .addComponent(labelCurrentTime))
+                    .addComponent(labelCurrentTime)
+                    .addComponent(btAddProcess1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(priorityBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btAddProcess)
                     .addComponent(labelProcessCount)
-                    .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btAddProcess2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -156,19 +178,27 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btAddProcessActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         scheduler = new Scheduler();
         scheduler.start();
     }//GEN-LAST:event_formWindowOpened
 
     private void quantumBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_quantumBoxItemStateChanged
-        // TODO add your handling code here:
         Integer quantum = Integer.parseInt(quantumBox.getSelectedItem().toString());
         scheduler.setQuantum(quantum);
     }//GEN-LAST:event_quantumBoxItemStateChanged
 
+    private void btAddProcess1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddProcess1ActionPerformed
+        scheduler.startScheduler();
+    }//GEN-LAST:event_btAddProcess1ActionPerformed
+
+    private void btAddProcess2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddProcess2ActionPerformed
+        scheduler.stopScheduler();
+    }//GEN-LAST:event_btAddProcess2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAddProcess;
+    private javax.swing.JButton btAddProcess1;
+    private javax.swing.JButton btAddProcess2;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel labelCurrentTime;
     public static javax.swing.JLabel labelProcessCount;

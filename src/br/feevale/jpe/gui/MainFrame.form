@@ -51,10 +51,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblQuantum" min="-2" max="-2" attributes="0"/>
-                          <Component id="quantumBox" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblQuantum" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="quantumBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="67" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btAddProcess2" min="-2" max="-2" attributes="0"/>
+                          <Component id="btAddProcess1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -70,6 +75,7 @@
                   <Component id="lblPriority" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblQuantum" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelCurrentTime" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btAddProcess1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -78,9 +84,10 @@
                   <Component id="btAddProcess" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelProcessCount" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="quantumBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btAddProcess2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="312" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="303" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -201,6 +208,22 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="btAddProcess1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Start"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAddProcess1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btAddProcess2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Stop"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAddProcess2ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
