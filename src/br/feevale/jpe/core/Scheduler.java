@@ -26,12 +26,17 @@ import java.util.List;
  */
 public class Scheduler extends Thread {
 
-    List<Process> processes = new ArrayList<Process>();
+    private static final int SLEEP_DELAY = 500;
+
+    List<Process> processes = new ArrayList<>();
     private Boolean running = true;
     private Integer quantum = 0;
     private Process runningProcess;
     private Integer nextPid = 0;
     private Integer currentTime = 0;
+
+    public Scheduler() {
+    }
 
     public void addProcess(Process p) {
         processes.add(p);
@@ -51,6 +56,10 @@ public class Scheduler extends Thread {
         this.quantum = quantum;
     }
 
+    public void startSchedler() {
+        running = true;
+    }
+
     public void stopSchedler() {
         running = false;
     }
@@ -63,45 +72,61 @@ public class Scheduler extends Thread {
     public void run() {
         while (running) {
             try {
-                if (runningProcess == null) {
-                    for (Process p : processes) {
-                        if (!p.isFinished()) {
-                            runningProcess = p;
-                            break;
-                        }
-                    }
-                }
-
-                if (runningProcess == null) {
-                    MainFrame.outputTextArea.setText("IDLE!");
-                } else {
-                    MainFrame.outputTextArea
-                            .setText("RUNNING PROCESS PID = " +
-                                    runningProcess.getPid());
-
-                    MainFrame.outputTextArea.append("\n");
-
-                    MainFrame.outputTextArea.append("INSERTION TIME = " +
-                            runningProcess.getInsertionTime());
-
-                    MainFrame.outputTextArea.append("\n");
-
-                    MainFrame.outputTextArea.append("REMAINING TIME = " +
-                            runningProcess.getRemainingTime());
-
-                    runningProcess.runProcess();
-                    if (runningProcess.isFinished()) {
-                        processes.remove(runningProcess);
-                        runningProcess = null;
-                    }
-                }
-
-                currentTime++;
-                updateCounter();
-                Thread.sleep(500);
+                doLoop();
+                Thread.sleep(SLEEP_DELAY);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void doLoop() {
+        if (!hasRunningProcess()) {
+            pickProcess();
+        }
+
+        updateRunningProcessInterface();
+
+        if (hasRunningProcess()) {
+            runProcess();
+        }
+
+        currentTime++;
+        updateCounter();
+    }
+
+    private void pickProcess() {
+        for (Process p : processes) {
+            if (!p.isFinished()) {
+                runningProcess = p;
+                break;
+            }
+        }
+    }
+
+    private void runProcess() {
+        runningProcess.runProcess();
+        if (runningProcess.isFinished()) {
+            processes.remove(runningProcess);
+            runningProcess = null;
+        }
+    }
+
+    private boolean hasRunningProcess() {
+        return runningProcess != null;
+    }
+
+    private void updateRunningProcessInterface() {
+        if (hasRunningProcess()) {
+            MainFrame.outputTextArea.setText("RUNNING PROCESS PID = " + runningProcess.getPid());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.setText("PROCESS PRIORITY = " + runningProcess.getPriority());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.append("INSERTION TIME = " + runningProcess.getInsertionTime());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.append("REMAINING TIME = " + runningProcess.getRemainingTime());
+        } else {
+            MainFrame.outputTextArea.setText("IDLE!");
         }
     }
 }

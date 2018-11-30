@@ -19,11 +19,11 @@ package br.feevale.jpe.bean;
 /**
  * A Single process
  */
-public class Process {
+public class Process implements Comparable<Process> {
 
-    private Integer pid;
-    private Integer priority;
-    private Integer totalTime;
+    private final Integer pid;
+    private final Integer priority;
+    private final Integer totalTime;
     private Integer remainingTime;
     private Integer insertionTime;
     private Boolean finished;
@@ -79,6 +79,16 @@ public class Process {
 
     public Boolean isFinished() {
         return finished;
+    }
+
+    @Override
+    public int compareTo(Process o) {
+        if (this.priority > o.getPriority()) {
+            return 1;
+        } else if (this.priority < o.getPriority()) {
+            return -1;
+        }
+        return 0;
     }
 
 }
