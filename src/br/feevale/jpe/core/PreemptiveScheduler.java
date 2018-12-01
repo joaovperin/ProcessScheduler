@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Perin
+ * Copyright (C) 2018 joaovperin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,23 +17,8 @@
 package br.feevale.jpe.core;
 
 /**
- * A Factory for schedulers
+ * Process Scheduler
  */
-public class SchedulerFactory {
-
-    public static final String TYPE_1 = "1-Não preemptivo, por chegada";
-    public static final String TYPE_2 = "2-Preemptivo, por prioridade/tempo";
-
-    public static final Scheduler create(String type) {
-        if (type != null && !type.trim().isEmpty()) {
-            switch (type) {
-                case TYPE_1:
-                    return new NonPreemptiveScheduler();
-                case TYPE_2:
-                    return new PreemptiveScheduler();
-            }
-        }
-        throw new IllegalArgumentException("Type must always have a valid value!");
-    }
+public class PreemptiveScheduler extends AbstractScheduler {
 
 }

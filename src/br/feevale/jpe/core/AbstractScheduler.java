@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class AbstractScheduler extends Thread implements Scheduler {
 
-    private static final int SLEEP_DELAY = 500;
+    private static final int SLEEP_DELAY = 200;
 
     protected final List<br.feevale.jpe.bean.Process> processes;
 
@@ -156,10 +156,7 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
     }
 
     private void updateCounter() {
-        String labelCurrentTimeText = "Current Time: " + currentTime;
-        if (!running) {
-            labelCurrentTimeText += " -> STOPED <-";
-        }
+        String labelCurrentTimeText = String.format("Current Time: %6d", currentTime);
         MainFrame.labelProcessCount.setText("Processes Count: " + processes.size());
         MainFrame.labelCurrentTime.setText(labelCurrentTimeText);
     }

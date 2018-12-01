@@ -16,9 +16,11 @@
  */
 package br.feevale.jpe.gui;
 
-import br.feevale.jpe.core.SchedulerImpl;
 import br.feevale.jpe.bean.Process;
 import br.feevale.jpe.core.Scheduler;
+import br.feevale.jpe.core.SchedulerFactory;
+import static br.feevale.jpe.core.SchedulerFactory.TYPE_1;
+import static br.feevale.jpe.core.SchedulerFactory.TYPE_2;
 
 /**
  * Main frame of the GUI
@@ -26,7 +28,7 @@ import br.feevale.jpe.core.Scheduler;
 public class MainFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form SISOPInterface
+     * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
@@ -55,6 +57,8 @@ public class MainFrame extends javax.swing.JFrame {
         btAddProcess1 = new javax.swing.JButton();
         btAddProcess2 = new javax.swing.JButton();
         btAddProcess3 = new javax.swing.JButton();
+        typeBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -71,7 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         priorityBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
-        btAddProcess.setText("Add Process");
+        btAddProcess.setText("Add");
         btAddProcess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAddProcessActionPerformed(evt);
@@ -93,7 +97,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblQuantum.setText("Quantum");
 
-        labelCurrentTime.setText("Current Time: 0");
+        labelCurrentTime.setText("Current Time:      0");
 
         btAddProcess1.setText("Start");
         btAddProcess1.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +120,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        typeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { TYPE_1, TYPE_2 }));
+        typeBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                typeBoxItemStateChanged(evt);
+            }
+        });
+        typeBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Type");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,54 +143,61 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTime))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(timeBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblPriority, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(priorityBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(priorityBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btAddProcess))
-                            .addComponent(lblPriority))
+                            .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(quantumBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblQuantum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelCurrentTime, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(labelProcessCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btAddProcess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btAddProcess3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelProcessCount, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                            .addComponent(labelCurrentTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblQuantum)
-                            .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btAddProcess1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btAddProcess1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                             .addComponent(btAddProcess2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btAddProcess3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(41, 41, 41)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTime)
-                    .addComponent(lblPriority)
-                    .addComponent(lblQuantum)
-                    .addComponent(labelCurrentTime)
-                    .addComponent(btAddProcess1)
-                    .addComponent(btAddProcess3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTime)
+                        .addComponent(lblPriority)
+                        .addComponent(lblQuantum)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCurrentTime)
+                        .addComponent(btAddProcess)
+                        .addComponent(btAddProcess1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(priorityBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btAddProcess)
                     .addComponent(labelProcessCount)
                     .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btAddProcess2))
+                    .addComponent(btAddProcess2)
+                    .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btAddProcess3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -180,7 +205,6 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAddProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddProcessActionPerformed
-        // TODO add your handling code here:
         Integer time = Integer.parseInt(timeBox.getSelectedItem().toString());
         Integer priority = Integer.parseInt(priorityBox.getSelectedItem().toString());
         Integer pid = scheduler.nextPid();
@@ -190,7 +214,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btAddProcessActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        scheduler = new SchedulerImpl();
+        String type = typeBox.getSelectedItem().toString();
+        scheduler = SchedulerFactory.create(type);
         scheduler.startRunning();
     }//GEN-LAST:event_formWindowOpened
 
@@ -211,11 +236,22 @@ public class MainFrame extends javax.swing.JFrame {
         scheduler.resetScheduler();
     }//GEN-LAST:event_btAddProcess3ActionPerformed
 
+    private void typeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeBoxItemStateChanged
+        String type = typeBox.getSelectedItem().toString();
+        scheduler = SchedulerFactory.create(type);
+        scheduler.startRunning();
+    }//GEN-LAST:event_typeBoxItemStateChanged
+
+    private void typeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAddProcess;
     private javax.swing.JButton btAddProcess1;
     private javax.swing.JButton btAddProcess2;
     private javax.swing.JButton btAddProcess3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel labelCurrentTime;
     public static javax.swing.JLabel labelProcessCount;
@@ -226,6 +262,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> priorityBox;
     private javax.swing.JComboBox<String> quantumBox;
     private javax.swing.JComboBox<String> timeBox;
+    private javax.swing.JComboBox<String> typeBox;
     // End of variables declaration//GEN-END:variables
     Scheduler scheduler;
 }
