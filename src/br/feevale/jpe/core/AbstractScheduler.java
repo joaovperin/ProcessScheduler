@@ -27,13 +27,23 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
 
     private static final int SLEEP_DELAY = 500;
 
-    protected final List<br.feevale.jpe.bean.Process> processes = new ArrayList<>();
+    protected final List<br.feevale.jpe.bean.Process> processes;
 
-    protected Boolean running = true;
-    protected Integer quantum = 0;
+    protected Boolean running;
+    protected Integer quantum;
     protected br.feevale.jpe.bean.Process runningProcess;
-    protected Integer nextPid = 0;
-    protected Integer currentTime = 0;
+    protected Integer nextPid;
+    protected Integer currentTime;
+
+    public AbstractScheduler() {
+        super();
+        this.processes = new ArrayList<>();
+        this.running = false;
+        this.quantum = 0;
+        this.runningProcess = null;
+        this.nextPid = 0;
+        this.currentTime = 0;
+    }
 
     @Override
     public final void startRunning() {
