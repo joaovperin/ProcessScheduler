@@ -16,25 +16,13 @@
  */
 package br.feevale.jpe.core;
 
-import br.feevale.jpe.bean.Process;
-
 /**
- * A simple interface for schedulers
+ * A Factory for schedulers
  */
-public interface Scheduler {
+public class SchedulerFactory {
 
-    public void startScheduler();
-
-    public void stopScheduler();
-
-    public void setQuantum(Integer quantum);
-
-    public Integer nextPid();
-
-    public Integer getCurrentTime();
-
-    public void addProcess(Process p);
-
-    public void startRunning();
+    public Scheduler create() {
+        return new SchedulerImpl();
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Perin
+ * Copyright (C) 2018 joaovperin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,25 +16,9 @@
  */
 package br.feevale.jpe.core;
 
-import br.feevale.jpe.bean.Process;
-
 /**
- * A simple interface for schedulers
+ * Process Scheduler
  */
-public interface Scheduler {
-
-    public void startScheduler();
-
-    public void stopScheduler();
-
-    public void setQuantum(Integer quantum);
-
-    public Integer nextPid();
-
-    public Integer getCurrentTime();
-
-    public void addProcess(Process p);
-
-    public void startRunning();
+public class SchedulerImpl extends AbstractScheduler {
 
 }

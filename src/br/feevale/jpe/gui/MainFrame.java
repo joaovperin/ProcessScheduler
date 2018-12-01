@@ -16,8 +16,9 @@
  */
 package br.feevale.jpe.gui;
 
-import br.feevale.jpe.core.Scheduler;
+import br.feevale.jpe.core.SchedulerImpl;
 import br.feevale.jpe.bean.Process;
+import br.feevale.jpe.core.Scheduler;
 
 /**
  * Main frame of the GUI
@@ -178,8 +179,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btAddProcessActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        scheduler = new Scheduler();
-        scheduler.start();
+        scheduler = new SchedulerImpl();
+        scheduler.startRunning();
     }//GEN-LAST:event_formWindowOpened
 
     private void quantumBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_quantumBoxItemStateChanged

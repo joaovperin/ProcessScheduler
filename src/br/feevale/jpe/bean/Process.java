@@ -24,8 +24,9 @@ public class Process implements Comparable<Process> {
     private final Integer pid;
     private final Integer priority;
     private final Integer totalTime;
+    private final Integer insertionTime;
+
     private Integer remainingTime;
-    private Integer insertionTime;
     private Boolean finished;
 
     public Process(Integer pid, Integer priority, Integer totalTime, Integer currentTime) {
@@ -37,30 +38,18 @@ public class Process implements Comparable<Process> {
         this.insertionTime = currentTime;
     }
 
-    /**
-     * @return the pid
-     */
     public Integer getPid() {
         return pid;
     }
 
-    /**
-     * @return the priority
-     */
     public Integer getPriority() {
         return priority;
     }
 
-    /**
-     * @return the totalTime
-     */
     public Integer getTotalTime() {
         return totalTime;
     }
 
-    /**
-     * @return the remainingTime
-     */
     public Integer getRemainingTime() {
         return remainingTime;
     }
@@ -73,7 +62,6 @@ public class Process implements Comparable<Process> {
         if (remainingTime > 0) {
             remainingTime--;
         }
-
         finished = remainingTime == 0;
     }
 
