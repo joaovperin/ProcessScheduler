@@ -16,6 +16,10 @@
  */
 package br.feevale.jpe.core;
 
+import br.feevale.jpe.core.impl.PriorityQuantumPreemptiveScheduler;
+import br.feevale.jpe.core.impl.PriorityPreemptiveScheduler;
+import br.feevale.jpe.core.impl.NonPreemptiveScheduler;
+
 /**
  * A Factory for schedulers
  */
@@ -31,7 +35,9 @@ public class SchedulerFactory {
                 case TYPE_1:
                     return new NonPreemptiveScheduler();
                 case TYPE_2:
-                    return new PreemptiveScheduler();
+                    return new PriorityPreemptiveScheduler();
+                case TYPE_3:
+                    return new PriorityQuantumPreemptiveScheduler();
             }
         }
         throw new IllegalArgumentException("Type must always have a valid value!");

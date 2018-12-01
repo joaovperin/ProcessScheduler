@@ -14,11 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.feevale.jpe.core;
+package br.feevale.jpe.core.impl;
+
+import br.feevale.jpe.core.AbstractScheduler;
 
 /**
  * Process Scheduler
  */
-public class PreemptiveScheduler extends AbstractScheduler {
+public class NonPreemptiveScheduler extends AbstractScheduler {
+
+    @Override
+    protected final void pickProcess() {
+        if (hasRunningProcess()) {
+            return;
+        }
+        setRunningProcess(getProcesses().stream().
+                filter(br.feevale.jpe.core.Process::isRunning).
+                findFirst().orElse(null));
+    }
 
 }

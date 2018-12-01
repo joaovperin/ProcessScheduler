@@ -16,8 +16,6 @@
  */
 package br.feevale.jpe.core;
 
-import br.feevale.jpe.bean.Process;
-
 /**
  * A simple interface for schedulers
  */
@@ -38,5 +36,7 @@ public interface Scheduler {
     public void startRunning();
 
     public void resetScheduler();
+
+    public void dispose();
 
 }

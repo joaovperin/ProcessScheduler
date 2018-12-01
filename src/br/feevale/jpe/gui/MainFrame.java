@@ -16,7 +16,7 @@
  */
 package br.feevale.jpe.gui;
 
-import br.feevale.jpe.bean.Process;
+import br.feevale.jpe.core.Process;
 import br.feevale.jpe.core.Scheduler;
 import br.feevale.jpe.core.SchedulerFactory;
 
@@ -175,14 +175,14 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblTime)
                         .addComponent(lblPriority)
                         .addComponent(lblQuantum)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addComponent(labelCurrentTime))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelCurrentTime)
                         .addComponent(btAddProcess)
                         .addComponent(btAddProcess1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,7 +207,8 @@ public class MainFrame extends javax.swing.JFrame {
         Integer priority = Integer.parseInt(priorityBox.getSelectedItem().toString());
         Integer pid = scheduler.nextPid();
         Integer currentTime = scheduler.getCurrentTime();
-        Process p = new Process(pid, priority, time, currentTime);
+        Integer quantum = Integer.parseInt(quantumBox.getSelectedItem().toString());
+        Process p = new Process(pid, quantum, priority, time, currentTime);
         scheduler.addProcess(p);
     }//GEN-LAST:event_btAddProcessActionPerformed
 
@@ -236,6 +237,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void typeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeBoxItemStateChanged
         String type = typeBox.getSelectedItem().toString();
+        if (scheduler != null) {
+            scheduler.dispose();
+        }
         scheduler = SchedulerFactory.create(type);
         scheduler.startRunning();
     }//GEN-LAST:event_typeBoxItemStateChanged

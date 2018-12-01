@@ -76,15 +76,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblTime" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblPriority" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblQuantum" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCurrentTime" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="labelCurrentTime" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btAddProcess" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btAddProcess1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>

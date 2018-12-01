@@ -25,15 +25,19 @@ import java.util.List;
  */
 public abstract class AbstractScheduler extends Thread implements Scheduler {
 
-    private static final int SLEEP_DELAY = 200;
+    private static final int SLEEP_DELAY = 300;
 
-    protected final List<br.feevale.jpe.bean.Process> processes;
+    private final List<br.feevale.jpe.core.Process> processes;
+
+    private br.feevale.jpe.core.Process runningProcess;
 
     protected Boolean running;
     protected Integer quantum;
-    protected br.feevale.jpe.bean.Process runningProcess;
     protected Integer nextPid;
     protected Integer currentTime;
+    protected Float computeValue;
+    protected Integer numProcess;
+    protected Boolean isThreadRunning;
 
     public AbstractScheduler() {
         super();
@@ -42,12 +46,82 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
     }
 
     @Override
+    public final void resetScheduler() {
+        processes.clear();
+        this.running = false;
+        this.quantum = 0;
+        this.runningProcess = null;
+        this.nextPid = 0;
+        this.currentTime = 0;
+        this.computeValue = 0f;
+        this.numProcess = 0;
+        this.isThreadRunning = true;
+        MainFrame.outputTextArea.setText("");
+        updateCounter();
+    }
+
+    protected abstract void pickProcess();
+
+    @Override
+    public final void run() {
+        while (isThreadRunning) {
+            try {
+                if (running) {
+                    currentTime++;
+                    pickProcess();
+                    if (hasRunningProcess()) {
+                        runProcess();
+                    }
+                }
+                updateCounter();
+                updateRunningProcessInterface();
+                Thread.sleep(SLEEP_DELAY);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
+    protected final void runProcess() {
+        runningProcess.runProcess();
+        if (runningProcess.isFinished()) {
+            numProcess++;
+            computeValue += currentTime - (runningProcess.getTotalTime() + runningProcess.getInsertionTime());
+            processes.remove(runningProcess);
+            runningProcess = null;
+        }
+    }
+
+    private void updateRunningProcessInterface() {
+        if (hasRunningProcess()) {
+            MainFrame.outputTextArea.setText("RUNNING PROCESS PID = " + runningProcess.getPid());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.append("PROCESS PRIORITY = " + runningProcess.getPriority());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.append("INSERTION TIME = " + runningProcess.getInsertionTime());
+            MainFrame.outputTextArea.append("\n");
+            MainFrame.outputTextArea.append("REMAINING TIME = " + runningProcess.getRemainingTime());
+        } else if (processes.stream().filter(br.feevale.jpe.core.Process::isFinished).count() == processes.size()) {
+            MainFrame.outputTextArea.setText("IDLE!");
+            if (numProcess != 0) {
+                MainFrame.outputTextArea.append("\n");
+                MainFrame.outputTextArea.append("AVERAGE WAITING TIME:" + (computeValue / numProcess));
+            }
+        }
+    }
+
+    private void updateCounter() {
+        String labelCurrentTimeText = String.format("Current Time: %6d", currentTime);
+        MainFrame.labelProcessCount.setText("Processes Count: " + processes.size());
+        MainFrame.labelCurrentTime.setText(labelCurrentTimeText);
+    }
+
+    @Override
     public final void startRunning() {
         start();
     }
 
     @Override
-    public final void addProcess(br.feevale.jpe.bean.Process p) {
+    public final void addProcess(br.feevale.jpe.core.Process p) {
         processes.add(p);
         updateCounter();
     }
@@ -73,15 +147,8 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
     }
 
     @Override
-    public final void resetScheduler() {
-        processes.clear();
-        this.running = false;
-        this.quantum = 0;
-        this.runningProcess = null;
-        this.nextPid = 0;
-        this.currentTime = 0;
-        MainFrame.outputTextArea.setText("");
-        updateCounter();
+    public final void dispose() {
+        isThreadRunning = false;
     }
 
     @Override
@@ -89,76 +156,20 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
         return nextPid++;
     }
 
-    @Override
-    public final void run() {
-        while (true) {
-            try {
-                if (running) {
-                    doLoop();
-                } else {
-                    updateCounter();
-                }
-                Thread.sleep(SLEEP_DELAY);
-            } catch (InterruptedException e) {
-                e.printStackTrace(System.out);
-            }
-        }
-    }
-
-    private void doLoop() {
-        if (!hasRunningProcess()) {
-            pickProcess();
-        }
-
-        updateRunningProcessInterface();
-
-        if (hasRunningProcess()) {
-            runProcess();
-        }
-
-        currentTime++;
-        updateCounter();
-    }
-
-    private void pickProcess() {
-        for (br.feevale.jpe.bean.Process p : processes) {
-            if (!p.isFinished()) {
-                runningProcess = p;
-                break;
-            }
-        }
-    }
-
-    private void runProcess() {
-        runningProcess.runProcess();
-        if (runningProcess.isFinished()) {
-            processes.remove(runningProcess);
-            runningProcess = null;
-        }
-    }
-
-    private boolean hasRunningProcess() {
+    protected final boolean hasRunningProcess() {
         return runningProcess != null;
     }
 
-    private void updateRunningProcessInterface() {
-        if (hasRunningProcess()) {
-            MainFrame.outputTextArea.setText("RUNNING PROCESS PID = " + runningProcess.getPid());
-            MainFrame.outputTextArea.append("\n");
-            MainFrame.outputTextArea.setText("PROCESS PRIORITY = " + runningProcess.getPriority());
-            MainFrame.outputTextArea.append("\n");
-            MainFrame.outputTextArea.append("INSERTION TIME = " + runningProcess.getInsertionTime());
-            MainFrame.outputTextArea.append("\n");
-            MainFrame.outputTextArea.append("REMAINING TIME = " + runningProcess.getRemainingTime());
-        } else {
-            MainFrame.outputTextArea.setText("IDLE!");
-        }
+    public Process getRunningProcess() {
+        return runningProcess;
     }
 
-    private void updateCounter() {
-        String labelCurrentTimeText = String.format("Current Time: %6d", currentTime);
-        MainFrame.labelProcessCount.setText("Processes Count: " + processes.size());
-        MainFrame.labelCurrentTime.setText(labelCurrentTimeText);
+    public void setRunningProcess(Process runningProcess) {
+        this.runningProcess = runningProcess;
+    }
+
+    public List<Process> getProcesses() {
+        return processes;
     }
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.feevale.jpe.bean;
+package br.feevale.jpe.core;
 
 /**
  * A Single process
@@ -25,17 +25,23 @@ public class Process implements Comparable<Process> {
     private final Integer priority;
     private final Integer totalTime;
     private final Integer insertionTime;
+    private final Integer quantum;
 
     private Integer remainingTime;
     private Boolean finished;
+    private Boolean quantumFinished;
+    private Integer remainingQuantum;
 
-    public Process(Integer pid, Integer priority, Integer totalTime, Integer currentTime) {
+    public Process(Integer pid, Integer quantum, Integer priority, Integer totalTime, Integer currentTime) {
         this.pid = pid;
         this.priority = priority;
         this.totalTime = totalTime;
+        this.quantum = quantum;
+        this.insertionTime = currentTime;
         this.remainingTime = totalTime;
         this.finished = false;
-        this.insertionTime = currentTime;
+        this.quantumFinished = false;
+        this.remainingQuantum = quantum;
     }
 
     public Integer getPid() {
@@ -61,20 +67,39 @@ public class Process implements Comparable<Process> {
     public void runProcess() {
         if (remainingTime > 0) {
             remainingTime--;
+            remainingQuantum--;
         }
-        finished = remainingTime == 0;
+        finished = (remainingTime == 0);
+        quantumFinished = (remainingQuantum == 0);
+        if (quantumFinished) {
+            remainingQuantum = quantum;
+        }
+    }
+
+    public boolean isQuantumFinished() {
+        return quantumFinished;
+    }
+
+    public void resetQuantumFinish() {
+        quantumFinished = false;
     }
 
     public Boolean isFinished() {
         return finished;
     }
 
+    public Boolean isRunning() {
+        return !finished;
+    }
+
     @Override
     public int compareTo(Process o) {
-        if (this.priority > o.getPriority()) {
-            return 1;
-        } else if (this.priority < o.getPriority()) {
-            return -1;
+        if (o != null) {
+            if (this.priority > o.getPriority()) {
+                return 1;
+            } else if (this.priority < o.getPriority()) {
+                return -1;
+            }
         }
         return 0;
     }
