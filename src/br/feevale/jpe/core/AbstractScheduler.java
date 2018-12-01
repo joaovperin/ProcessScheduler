@@ -51,7 +51,7 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
         this.running = false;
         this.quantum = 0;
         this.runningProcess = null;
-        this.nextPid = 0;
+        this.nextPid = 1;
         this.currentTime = 0;
         this.computeValue = 0f;
         this.numProcess = 0;
