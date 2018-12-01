@@ -54,6 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
         labelCurrentTime = new javax.swing.JLabel();
         btAddProcess1 = new javax.swing.JButton();
         btAddProcess2 = new javax.swing.JButton();
+        btAddProcess3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -108,6 +109,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btAddProcess3.setText("Reset");
+        btAddProcess3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddProcess3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,10 +144,12 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(lblQuantum)
                             .addComponent(quantumBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btAddProcess2)
-                            .addComponent(btAddProcess1))
-                        .addGap(0, 109, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btAddProcess1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btAddProcess2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAddProcess3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(41, 41, 41)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -151,7 +161,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(lblPriority)
                     .addComponent(lblQuantum)
                     .addComponent(labelCurrentTime)
-                    .addComponent(btAddProcess1))
+                    .addComponent(btAddProcess1)
+                    .addComponent(btAddProcess3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,10 +207,15 @@ public class MainFrame extends javax.swing.JFrame {
         scheduler.stopScheduler();
     }//GEN-LAST:event_btAddProcess2ActionPerformed
 
+    private void btAddProcess3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddProcess3ActionPerformed
+        scheduler.resetScheduler();
+    }//GEN-LAST:event_btAddProcess3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAddProcess;
     private javax.swing.JButton btAddProcess1;
     private javax.swing.JButton btAddProcess2;
+    private javax.swing.JButton btAddProcess3;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel labelCurrentTime;
     public static javax.swing.JLabel labelProcessCount;

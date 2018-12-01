@@ -38,11 +38,7 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
     public AbstractScheduler() {
         super();
         this.processes = new ArrayList<>();
-        this.running = false;
-        this.quantum = 0;
-        this.runningProcess = null;
-        this.nextPid = 0;
-        this.currentTime = 0;
+        resetScheduler();
     }
 
     @Override
@@ -77,6 +73,18 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
     }
 
     @Override
+    public final void resetScheduler() {
+        processes.clear();
+        this.running = false;
+        this.quantum = 0;
+        this.runningProcess = null;
+        this.nextPid = 0;
+        this.currentTime = 0;
+        MainFrame.outputTextArea.setText("");
+        updateCounter();
+    }
+
+    @Override
     public final Integer nextPid() {
         return nextPid++;
     }
@@ -91,7 +99,7 @@ public abstract class AbstractScheduler extends Thread implements Scheduler {
                     updateCounter();
                 }
                 Thread.sleep(SLEEP_DELAY);
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace(System.out);
             }
         }

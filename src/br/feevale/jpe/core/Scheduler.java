@@ -37,4 +37,6 @@ public interface Scheduler {
 
     public void startRunning();
 
+    public void resetScheduler();
+
 }
