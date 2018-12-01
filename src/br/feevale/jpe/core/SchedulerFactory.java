@@ -22,7 +22,8 @@ package br.feevale.jpe.core;
 public class SchedulerFactory {
 
     public static final String TYPE_1 = "1-Não preemptivo, por chegada";
-    public static final String TYPE_2 = "2-Preemptivo, por prioridade/tempo";
+    public static final String TYPE_2 = "2-Preemptivo, por prioridade";
+    public static final String TYPE_3 = "3-Preemptivo, por prioridade/quantum";
 
     public static final Scheduler create(String type) {
         if (type != null && !type.trim().isEmpty()) {
@@ -34,6 +35,10 @@ public class SchedulerFactory {
             }
         }
         throw new IllegalArgumentException("Type must always have a valid value!");
+    }
+
+    public static String[] getTypes() {
+        return new String[] { TYPE_1, TYPE_2, TYPE_3 };
     }
 
 }

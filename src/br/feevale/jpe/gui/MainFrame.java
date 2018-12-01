@@ -19,8 +19,6 @@ package br.feevale.jpe.gui;
 import br.feevale.jpe.bean.Process;
 import br.feevale.jpe.core.Scheduler;
 import br.feevale.jpe.core.SchedulerFactory;
-import static br.feevale.jpe.core.SchedulerFactory.TYPE_1;
-import static br.feevale.jpe.core.SchedulerFactory.TYPE_2;
 
 /**
  * Main frame of the GUI
@@ -120,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        typeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { TYPE_1, TYPE_2 }));
+        typeBox.setModel(new javax.swing.DefaultComboBoxModel<>(SchedulerFactory.getTypes()));
         typeBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 typeBoxItemStateChanged(evt);
